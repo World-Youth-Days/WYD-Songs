@@ -5,7 +5,7 @@
         <meta name="description" content="WYD Songs - the best songs app for the World Youth Day! By the guys behind WYD Dictionary." />
         <meta property="og:title" content="WYD Songs" />
         <meta property="og:type" content="website" />
-        <meta property="og:url" content="http://wyd-dict.tk/" />
+        <meta property="og:url" content="http://wyd-dict.tk/songs" />
         <meta property="og:image" content="http://wyd-dict.tk/img/fb.png" />
         <meta property="og:description" content="WYD Songs - the best songs app for the World Youth Day! By the guys behind WYD Dictionary." />
         
