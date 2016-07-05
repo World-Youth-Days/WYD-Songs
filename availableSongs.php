@@ -44,7 +44,7 @@ while ($tag = $tagsRet->fetchArray(SQLITE3_ASSOC)) {
         while ($row = $tagRet->fetchArray(SQLITE3_ASSOC)) $tagIds[] = $row['word_id'];
         if(count(array_intersect($intersectIds, $tagIds))) {
             $song = $db->query("SELECT * FROM words WHERE id=".$tagIds[0])->fetchArray(SQLITE3_ASSOC);
-            $output[] = ["0;".$tag['id'], $song['base'], $song['trans']];
+            $output[] = ["0;".$tag['id'], substr($song['base'],3), substr($song['trans'], 3)];
 //            echo $tag['tag_name']."<br>";
 //            echo "<option value=''>".$song['base']."/".$song['trans']."</option>";
         }
@@ -73,7 +73,7 @@ while ($tag = $tagsRet->fetchArray(SQLITE3_ASSOC)) {
         while ($row = $tagRet->fetchArray(SQLITE3_ASSOC)) $tagIds[] = $row['word_id'];
         if(count(array_intersect($intersectIds, $tagIds))) {
             $song = $db->query("SELECT * FROM words WHERE id=".$tagIds[0])->fetchArray(SQLITE3_ASSOC);
-            $output[] = ["1;".$tag['id'], $song['trans'], $song['base']];
+            $output[] = ["1;".$tag['id'], substr($song['trans'], 3), substr($song['base'], 3)];
 //            echo $tag['tag_name']."<br>";
 //            echo "<option value=''>".$song['base']."/".$song['trans']."</option>";
         }
@@ -81,6 +81,6 @@ while ($tag = $tagsRet->fetchArray(SQLITE3_ASSOC)) {
 }
 
 foreach ($output as $value) {
-    echo "<option value='".$value[0]."'>".$value[1]."/".$value[2]."</option>";
+    echo "<option value='".$value[0]."'>".$value[1]." / ".$value[2]."</option>";
 }
 ?>
