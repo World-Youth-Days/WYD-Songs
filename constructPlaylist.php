@@ -16,7 +16,8 @@ if(!$db){
 }
 
 $output = array();
-$output[] = ["", ""];
+$output[0][] = ["",""];
+$output[1][] = ["",""];
 
 $toGet = explode(";", $_GET['playlist']);
 for ($i=0; $i < count($toGet); $i+=2) {
@@ -29,15 +30,18 @@ for ($i=0; $i < count($toGet); $i+=2) {
     $getVersesSQL = substr($getVersesSQL, 0, strlen($getVersesSQL)-4)." ORDER BY base";
     //echo $getVersesSQL;
     $getVersesRet = $db->query($getVersesSQL);
-    $getVersesRet->fetchArray(SQLITE3_ASSOC);
+    $title = $getVersesRet->fetchArray(SQLITE3_ASSOC);
     while ($row = $getVersesRet->fetchArray(SQLITE3_ASSOC)) {
         if($toGet[$i]) {
-            $output[] = [substr($row['trans'],3), substr($row['base'],3)];
+            $output[0][] = [substr($row['trans'],3), substr($row['base'],3)];
+            $output[1][] = [substr($title['trans'],3), substr($title['base'],3)];
         } else {
-            $output[] = [substr($row['base'],3), substr($row['trans'],3)];
+            $output[0][] = [substr($row['base'],3), substr($row['trans'],3)];
+            $output[1][] = [substr($title['base'],3), substr($title['trans'],3)];
         }
     }
-    $output[] = ["", ""];
+    $output[0][] = ["",""];
+    $output[1][] = ["",""];
 }
 
 echo json_encode($output);

@@ -53,8 +53,8 @@ $(document).ready(function() {
             $.get("constructPlaylist.php?playlist="+question, function(data) {
                 verses = JSON.parse(data);
                 current = 0;
-                $("#words-left").html(verses[0][0].replace(/\n/g,'<br/>'));
-                $("#words-right").html(verses[0][1].replace(/\n/g,'<br/>'));
+                $("#words-left").html(verses[0][0][0].replace(/\n/g,'<br/>'));
+                $("#words-right").html(verses[0][0][1].replace(/\n/g,'<br/>'));
                 $("#nav").show();
                 $("#chooser").fadeOut("slow");
                 navTimeout = setTimeout(function(){$("#nav").fadeOut()}, 5000);
@@ -67,26 +67,26 @@ $(document).ready(function() {
     $(document).keydown(function(e) {
         if((e.which == 37 ||e.which == 40) && current-1 >= 0) {
             current -= 1;
-            $("#words-left").html(verses[current][0].replace(/\n/g,'<br/>'));
-            $("#words-right").html(verses[current][1].replace(/\n/g,'<br/>'));
-        } else if ((e.which == 39 || e.which == 32 || e.which == 40) && current+1<verses.length) {
+            $("#words-left").html(verses[0][current][0].replace(/\n/g,'<br/>'));
+            $("#words-right").html(verses[0][current][1].replace(/\n/g,'<br/>'));
+        } else if ((e.which == 39 || e.which == 32 || e.which == 40) && current+1<verses[0].length) {
             current += 1;
-            $("#words-left").html(verses[current][0].replace(/\n/g,'<br/>'));
-            $("#words-right").html(verses[current][1].replace(/\n/g,'<br/>'));
+            $("#words-left").html(verses[0][current][0].replace(/\n/g,'<br/>'));
+            $("#words-right").html(verses[0][current][1].replace(/\n/g,'<br/>'));
         }
     });
     $("#left-button").click(function() {
         if(current-1 >= 0) {
             current -= 1;
-            $("#words-left").html(verses[current][0].replace(/\n/g,'<br/>'));
-            $("#words-right").html(verses[current][1].replace(/\n/g,'<br/>'));
+            $("#words-left").html(verses[0][current][0].replace(/\n/g,'<br/>'));
+            $("#words-right").html(verses[0][current][1].replace(/\n/g,'<br/>'));
         }
     });
     $("#right-button").click(function() {
-        if(current+1<verses.length) {
+        if(current+1<verses[0].length) {
             current += 1;
-            $("#words-left").html(verses[current][0].replace(/\n/g,'<br/>'));
-            $("#words-right").html(verses[current][1].replace(/\n/g,'<br/>'));
+            $("#words-left").html(verses[0][current][0].replace(/\n/g,'<br/>'));
+            $("#words-right").html(verses[0][current][1].replace(/\n/g,'<br/>'));
         }
     });
     $("#fullscreen").click(function() {
