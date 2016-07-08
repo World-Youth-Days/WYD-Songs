@@ -44,11 +44,13 @@
     <body>
         <div id="ticker">
             <div class="left">
+                <div class="title" id="title-left"></div>
                 <div class="words" id="words-left">
                     --
                 </div>
             </div>
             <div class="right">
+                <div class="title" id="title-right"></div>
                 <div class="words" id="words-right">
                     --
                 </div>
