@@ -39,19 +39,24 @@ $(document).ready(function() {
         }
     });
     
-    if (monster.get("playlist")==null) {
+    if (monster.get("playlist")==null || monster.get("playlist") == "") {
         monster.set("playlist", "");
     } else {
         playlists = JSON.parse(monster.get("playlist"));
     }
     
     $("#open").click(function() {
-        playlists = JSON.parse(monster.get("playlist"));
-        $("#opener-select").html("");
-        for (i=0; i<playlists.length; i++) {
-            $("#opener-select").append("<option value='"+playlists[i][1]+"'>"+playlists[i][0]+"</option>")
+        if(monster.get("playlist") != "") {
+            playlists = JSON.parse(monster.get("playlist"));
+            $("#opener-select").html("");
+            for (i=0; i<playlists.length; i++) {
+                $("#opener-select").append("<option value='"+playlists[i][1]+"'>"+playlists[i][0]+"</option>")
+            }
+            $("#opener-cont").fadeIn("slow"); 
+            $("#opener-open").focus()
+        } else {
+            alert("Save a Playlist first!\n\nNajpierw zapisz Playlistę!");
         }
-        $("#opener-cont").fadeIn("slow");
     })
     $("#opener-open").click(function() {
         toAdd = $("#opener-select").val().split(";");
@@ -71,7 +76,6 @@ $(document).ready(function() {
             contents+=$(this).attr('id')+";"+$(this).text().substr(1,$(this).text().length-2)+";";
         });
         contents = contents.substr(0, contents.length-1);
-        alert(contents);
         if(contents != ""){
             nameAns = prompt("Give the Playlist a name: / Nazwij swoją Playlistę:")
             if(nameAns != null) {
@@ -110,7 +114,7 @@ $(document).ready(function() {
                 $("#words-left").html(verses[0][0][0].replace(/\n/g,'<br/>'));
                 $("#words-right").html(verses[0][0][1].replace(/\n/g,'<br/>'));
                 $("#nav").show();
-                $("#chooser").fadeOut("slow");
+                $("#ticker").fadeIn("slow");
                 navTimeout = setTimeout(function(){$("#nav").fadeOut()}, 5000);
             });
         } else {
@@ -132,7 +136,7 @@ $(document).ready(function() {
             $("#title-left").html(verses[1][current][0].replace(/\n/g,'<br/>'));
             $("#title-right").html(verses[1][current][1].replace(/\n/g,'<br/>'));
         } else if(e.which == 27) {
-            $("#chooser").fadeIn("slow");
+            $("#ticker").fadeOut("slow");
         }
     });
     $("#left-button").click(function() {
@@ -172,7 +176,7 @@ $(document).ready(function() {
            document.webkitCancelFullScreen();  
          }  
        } 
-       $("#chooser").fadeIn("slow");
+       $("#ticker").fadeOut("slow");
     });
     $("#nav-input").mousemove(function() {
         clearTimeout(navTimeout);
