@@ -13,6 +13,7 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <script type="text/javascript" src="Sortable.min.js"></script>
         <script type="text/javascript" src="jquery-1.12.2.min.js"></script>
+        <script type="text/javascript" src="json2.js"></script>
         <script type="text/javascript" src="main.js"></script>
         <link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet">
         <link rel="stylesheet" href="main.css" />
@@ -152,5 +153,13 @@
         }
         curl_close($c);
         ?>
+        
+        <div id="opener-cont">
+            <div id="opener">
+                <select id="opener-select"></select><br>
+                <button id="opener-open">Open / Otwórz</button>
+                <button id="opener-close">Cancel / Anuluj</button>
+            </div>
+        </div>
     </body>
 </html>

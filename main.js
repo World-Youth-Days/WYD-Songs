@@ -8,6 +8,7 @@
 var monster={set:function(a,b,c,d,e){var f=new Date,g="",h=typeof b,i="",j="";if(d=d||"/",c&&(f.setTime(f.getTime()+24*c*60*60*1e3),g="; expires="+f.toUTCString()),"object"===h&&"undefined"!==h){if(!("JSON"in window))throw"Bummer, your browser doesn't support JSON parsing.";i=encodeURIComponent(JSON.stringify({v:b}))}else i=encodeURIComponent(b);e&&(j="; secure"),document.cookie=a+"="+i+g+"; path="+d+j},get:function(a){for(var b=a+"=",c=document.cookie.split(";"),d="",e="",f={},g=0;g<c.length;g++){for(var h=c[g];" "==h.charAt(0);)h=h.substring(1,h.length);if(0===h.indexOf(b)){if(d=decodeURIComponent(h.substring(b.length,h.length)),e=d.substring(0,1),"{"==e)try{if(f=JSON.parse(d),"v"in f)return f.v}catch(i){return d}return"undefined"==d?void 0:d}}return null},remove:function(a){this.set(a,"",-1)},increment:function(a,b){var c=this.get(a)||0;this.set(a,parseInt(c,10)+1,b)},decrement:function(a,b){var c=this.get(a)||0;this.set(a,parseInt(c,10)-1,b)}};
 
 var verses = [];
+var playlists = [];
 current = 0;
 $(document).ready(function() {
     $("#select-from").change(function() {
@@ -40,17 +41,46 @@ $(document).ready(function() {
     
     if (monster.get("playlist")==null) {
         monster.set("playlist", "");
-        playlists = [];
-    } 
+    } else {
+        playlists = JSON.parse(monster.get("playlist"));
+    }
+    
+    $("#open").click(function() {
+        playlists = JSON.parse(monster.get("playlist"));
+        $("#opener-select").html("");
+        for (i=0; i<playlists.length; i++) {
+            $("#opener-select").append("<option value='"+playlists[i][1]+"'>"+playlists[i][0]+"</option>")
+        }
+        $("#opener-cont").fadeIn("slow");
+    })
+    $("#opener-open").click(function() {
+        toAdd = $("#opener-select").val().split(";");
+        $("#playlist-body").html("");
+        for (i=0; i<toAdd.length; i+=3) {
+            $("#playlist-body").append("<li class='playlist-elem' id='"+toAdd[i]+";"+toAdd[i+1]+"'><span class='drag-handle'>☰</span>"+toAdd[i+2]+"<span class='playlist-remove'>X</span></li>");
+        }
+        $("#opener-cont").fadeOut("slow");
+    })
+    $("#opener-close").click(function() {
+        $("#opener-cont").fadeOut("slow");
+    })
     
     $("#save").click(function() {
         contents = "";
         $(".playlist-elem").each(function() {
-            contents+=$(this).attr('id')+";";
+            contents+=$(this).attr('id')+";"+$(this).text().substr(1,$(this).text().length-2)+";";
         });
-        contents = contents.substr(0, question.length-1);
-        nameAns = prompt("Give the Playlist a nama: / Nazwij swoją Playlistę:")
-        playlists.push([nameAns, contents]);
+        contents = contents.substr(0, contents.length-1);
+        alert(contents);
+        if(contents != ""){
+            nameAns = prompt("Give the Playlist a name: / Nazwij swoją Playlistę:")
+            if(nameAns != null) {
+                playlists.push([nameAns, contents]);
+                monster.set("playlist", JSON.stringify(playlists));
+            }
+        } else {
+            alert("Add songs to the Playlist using the menu on your left!\n\nDodaj pieśni do Playlisty używając menu po lewej!");
+        }
     })
     
     $("#start").click(function() {
