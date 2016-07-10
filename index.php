@@ -63,9 +63,6 @@
                 <div id="right-button" class="left-button">
                     dalej
                 </div>
-                <div id="fullscreen" class="right-button">
-                    pełny ekran
-                </div>
                 <div id="exit" class="right-button">
                     zamknij
                 </div>
@@ -122,6 +119,8 @@
             <div class="right">
                 <h2>Playlist / Playlista</h2>
                 <div id="playlist">
+                    <button id="open">Open / Otwórz</button>
+                    <button id="save">Save / Zapisz</button>
                     <ul id="playlist-body">
                         
                     </ul>
@@ -129,8 +128,29 @@
                 Add songs on the left! / Dodaj pieśni w menu po lewej!
             </div>
             <div id="start-container">
-                <div id="start">START!</div>
+                <button id="start">START!</button>
             </div>
         </div>
+        
+        <?php
+        $c = curl_init('http://wyd-dict.tk/newDBcheck.php');
+        curl_setopt($c, CURLOPT_RETURNTRANSFER, true);
+        $html = curl_exec($c);
+        if (!curl_error($c)){
+            $local = hash_file("md5","dictionary.db");
+            if($local != $html) { ?>
+            <div id="update">
+                <a href="update.php">
+                    <button id="update-ok">
+                        Ok!
+                    </button>   
+                </a>
+                There is a new songs database available. Would you like to update? You will loose the unsaved changes to your Playlist!<br>
+                Dostępna jest nowa wersja bazy danych. Czy chcesz dokonać aktualizacji? Utracisz niezapisane zmiany w Playliście!
+            </div>
+            <?php }
+        }
+        curl_close($c);
+        ?>
     </body>
 </html>
